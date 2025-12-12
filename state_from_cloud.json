@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "generated_at": "2025-12-06T17:24:03Z",
+    "source": "auto_run_orchestrator"
+  },
+  "hosts": [],
+  "services": [],
+  "recon_data": {},
+  "crawl_data": {},
+  "probe_data": {},
+  "credentials": [],
+  "exploits_attempted": [],
+  "post_exploitation": [],
+  "ready": true
+}

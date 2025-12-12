@@ -1,0 +1,11 @@
+requests
+argparse
+json5
+pandas
+matplotlib
+seaborn
+docker
+pyyaml
+scipy
+numpy
+networkx

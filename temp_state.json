@@ -1,0 +1,61 @@
+{
+  "target_name": "web_cluster",
+  "hosts": [
+    {
+      "ip": "10.0.0.2",
+      "hostname": "web1",
+      "services": [
+        {
+          "name": "http",
+          "port": 80,
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95
+    },
+    {
+      "ip": "10.0.0.3",
+      "hostname": "web2",
+      "services": [
+        {
+          "name": "http",
+          "port": 8080,
+          "confidence": 0.9
+        }
+      ],
+      "confidence": 0.9
+    }
+  ],
+  "endpoints": [
+    {
+      "host": "10.0.0.2",
+      "path": "/",
+      "method": "GET",
+      "confidence": 0.95
+    },
+    {
+      "host": "10.0.0.2",
+      "path": "/login",
+      "method": "POST",
+      "confidence": 0.9
+    },
+    {
+      "host": "10.0.0.3",
+      "path": "/admin",
+      "method": "GET",
+      "confidence": 0.85
+    }
+  ],
+  "ground_truth": [
+    {
+      "host": "10.0.0.2",
+      "path": "/login"
+    },
+    {
+      "host": "10.0.0.3",
+      "path": "/admin"
+    }
+  ],
+  "generated_at": "2025-10-18T14:38:06Z",
+  "seed": 42
+}

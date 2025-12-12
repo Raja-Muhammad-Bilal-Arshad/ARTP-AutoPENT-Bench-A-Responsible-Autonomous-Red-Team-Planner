@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "campaign_id": "APT_AD_COMPROMISE_2025",
+    "objective": "Domain Dominance (DCSync)",
+    "ground_truth_metrics": {
+      "optimal_path_length": 4,
+      "graph_complexity_score": 0.85,
+      "stealth_budget_max": 3.0
+    }
+  },
+  "plan": [
+    {
+      "step_id": "phase_1_access",
+      "action": "attempt_exploit_simulated",
+      "target": { "host": "10.0.0.5", "vuln": "Phishing" },
+      "meta": { "impact": "medium", "stealth_cost": 0.5, "technique": "T1566 - Phishing" },
+      "rationale": "Initial foothold via targeted spearphishing."
+    },
+    {
+      "step_id": "phase_2_recon_users",
+      "action": "enumerate",
+      "target": { "domain": "CORP.LOCAL", "method": "SPN_Scanning" },
+      "meta": { "impact": "low", "stealth_cost": 0.2, "technique": "T1558.003 - Kerberoasting" },
+      "rationale": "Identify service accounts with weak passwords."
+    },
+    {
+      "step_id": "phase_3_lateral_move",
+      "action": "escalate_simulated",
+      "target": { "account": "SQL-Service" },
+      "meta": { "impact": "high", "stealth_cost": 0.8, "technique": "T1098 - Account Manipulation" },
+      "rationale": "Crack TGS ticket to compromise SQL Service account."
+    },
+    {
+      "step_id": "phase_4_domain_dominance",
+      "action": "attempt_exploit_simulated",
+      "target": { "host": "DC-01", "method": "DCSync" },
+      "meta": { "impact": "critical", "stealth_cost": 1.5, "technique": "T1003.006 - DCSync" },
+      "rationale": "Replicate directory secrets to obtain KRBTGT hash."
+    }
+  ]
+}

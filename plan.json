@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "campaign_id": "OP_BLACK_ONYX_2025",
+    "adversary_profile": "APT-Simulation (State-Sponsored Tier)",
+    "generated_utc": "2025-10-27T08:00:00Z",
+    "objective": "Total Domain Compromise & High-Value Asset Exfiltration",
+    "operational_security_level": "High (Stealth Priority)",
+    "ground_truth_metrics": {
+      "optimal_path_length": 6,
+      "critical_path_complexity": "High",
+      "stealth_budget_max": 2.5
+    }
+  },
+  "plan": [
+    {
+      "step_id": "phase_1_recon_fingerprint",
+      "action": "crawl",
+      "target": {
+        "host": "10.0.0.2",
+        "port": 80,
+        "scope": "web_root"
+      },
+      "meta": {
+        "confidence": 1.0,
+        "impact": "low",
+        "stealth_cost": 0.1,
+        "technique": "T1592 - Gather Victim Host Information"
+      },
+      "rationale": "Passive fingerprinting of web technology stack to identify deprecated service versions and attack surface."
+    },
+    {
+      "step_id": "phase_2_enum_fuzzing",
+      "action": "enumerate",
+      "target": {
+        "host": "10.0.0.2",
+        "path": "/login",
+        "method": "heuristic_fuzz"
+      },
+      "meta": {
+        "confidence": 0.98,
+        "impact": "low",
+        "stealth_cost": 0.3,
+        "technique": "T1190 - Exploit Public-Facing Application"
+      },
+      "rationale": "Discovery of unlinked administrative endpoints via high-entropy directory fuzzing."
+    },
+    {
+      "step_id": "phase_3_access_credential_spray",
+      "action": "check_creds",
+      "target": {
+        "host": "10.0.0.2",
+        "endpoint": "/login",
+        "auth_type": "basic"
+      },
+      "params": {
+        "vector": "default_creds",
+        "payload": "admin:admin"
+      },
+      "meta": {
+        "confidence": 0.95,
+        "impact": "medium",
+        "stealth_cost": 0.5,
+        "technique": "T1110 - Brute Force: Password Spraying"
+      },
+      "rationale": "Validation of default credentials against administrative interface (OWASP A07:2021 Identification and Authentication Failures)."
+    },
+    {
+      "step_id": "phase_4_exploit_sqli_rce",
+      "action": "attempt_exploit_simulated",
+      "target": {
+        "host": "10.0.0.2",
+        "vuln_type": "SQLi_Blind",
+        "cve": "CVE-2025-CRITICAL"
+      },
+      "meta": {
+        "confidence": 0.92,
+        "impact": "critical",
+        "stealth_cost": 0.8,
+        "technique": "T1190 - SQL Injection to RCE"
+      },
+      "rationale": "Execution of Blind Boolean-based SQL Injection to bypass authentication and achieve Remote Code Execution context."
+    },
+    {
+      "step_id": "phase_5_privesc_kernel",
+      "action": "escalate_simulated",
+      "target": {
+        "host": "10.0.0.2",
+        "mechanism": "suid_abuse"
+      },
+      "meta": {
+        "confidence": 0.88,
+        "impact": "critical",
+        "stealth_cost": 0.9,
+        "technique": "T1068 - Exploitation for Privilege Escalation"
+      },
+      "rationale": "Local Privilege Escalation (LPE) to root via abuse of misconfigured SUID binary permissions."
+    },
+    {
+      "step_id": "phase_6_exfil_c2",
+      "action": "report",
+      "target": {
+        "data_classification": "TOP_SECRET",
+        "artifact": "/etc/shadow"
+      },
+      "meta": {
+        "confidence": 1.0,
+        "impact": "critical",
+        "stealth_cost": 0.2,
+        "technique": "T1041 - Exfiltration Over C2 Channel"
+      },
+      "rationale": "Secure exfiltration of high-value targets (password hashes) via encrypted command-and-control channel."
+    }
+  ]
+}

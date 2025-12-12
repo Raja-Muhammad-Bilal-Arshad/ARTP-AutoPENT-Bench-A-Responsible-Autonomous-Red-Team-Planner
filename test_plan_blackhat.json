@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "generated_utc": "2025-12-06T10:27:04.833134Z",
+    "agent": "APT_Rule_Based_v5_BlackHat",
+    "seed": 666,
+    "ground_truth_metrics": {
+      "optimal_path_length": 4,
+      "stealth_budget_max": 1.32
+    }
+  },
+  "plan": [
+    {
+      "step_id": "phase_01_escalate_simulated",
+      "action": "escalate_simulated",
+      "target": {
+        "host": "AWSWAPPS1000000.DOAZLAB.COM",
+        "os": "linux"
+      },
+      "meta": {
+        "confidence": 0.75,
+        "impact": "critical",
+        "stealth_cost": 0.9,
+        "technique": "T1068",
+        "tool_used": "linpeas",
+        "module": "unknown"
+      },
+      "rationale": "Automated privilege escalation via SUID binary abuse and kernel exploits (DirtyPipe)."
+    },
+    {
+      "step_id": "phase_02_report",
+      "action": "report",
+      "target": {
+        "host": "AWSWAPPS1000000.DOAZLAB.COM",
+        "artifact": "shadow_hashes"
+      },
+      "meta": {
+        "confidence": 1.0,
+        "impact": "high",
+        "stealth_cost": 0.2,
+        "technique": "T1041 - Exfiltration Over C2 Protocol",
+        "tool_used": "c2_channel",
+        "module": "unknown"
+      },
+      "rationale": "Exfiltration of critical proof-of-concept artifacts (PII/Hashes) to C2."
+    }
+  ]
+}
